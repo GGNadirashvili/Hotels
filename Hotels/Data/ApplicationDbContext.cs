@@ -14,7 +14,7 @@ namespace Hotels.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<HotelType> HotelTypes { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

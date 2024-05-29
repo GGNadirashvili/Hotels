@@ -1,8 +1,8 @@
 ﻿namespace Hotels.Entities
 {
-    public class HotelType
+    public class RoomType
     {
-        public int HotelTypeId { get; set; }
+        public int RoomTypeId { get; set; }
         public string? TypeName { get; set; }
     }
 }

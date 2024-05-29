@@ -39,18 +39,16 @@ namespace Hotels.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HotelTypes",
+                name: "RoomTypes",
                 columns: table => new
                 {
-                    HotelTypeId = table.Column<int>(type: "int", nullable: false)
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Single = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Double = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deluxe = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HotelTypes", x => x.HotelTypeId);
+                    table.PrimaryKey("PK_RoomTypes", x => x.RoomTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,8 +58,7 @@ namespace Hotels.Migrations
                     HotelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: false),
-                    HotelTypeId = table.Column<int>(type: "int", nullable: true)
+                    CityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,11 +69,6 @@ namespace Hotels.Migrations
                         principalTable: "Cities",
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Hotels_HotelTypes_HotelTypeId",
-                        column: x => x.HotelTypeId,
-                        principalTable: "HotelTypes",
-                        principalColumn: "HotelTypeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -88,7 +80,8 @@ namespace Hotels.Migrations
                     RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: true)
+                    HotelId = table.Column<int>(type: "int", nullable: true),
+                    RoomTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,6 +91,11 @@ namespace Hotels.Migrations
                         column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "HotelId");
+                    table.ForeignKey(
+                        name: "FK_Rooms_RoomTypes_RoomTypeId",
+                        column: x => x.RoomTypeId,
+                        principalTable: "RoomTypes",
+                        principalColumn: "RoomTypeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -144,14 +142,14 @@ namespace Hotels.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hotels_HotelTypeId",
-                table: "Hotels",
-                column: "HotelTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_RoomTypeId",
+                table: "Rooms",
+                column: "RoomTypeId");
         }
 
         /// <inheritdoc />
@@ -170,10 +168,10 @@ namespace Hotels.Migrations
                 name: "Hotels");
 
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "RoomTypes");
 
             migrationBuilder.DropTable(
-                name: "HotelTypes");
+                name: "Cities");
         }
     }
 }

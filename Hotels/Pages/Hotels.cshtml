@@ -5,27 +5,35 @@
 
 }
 
+@section Head {}
+
 <body>
+    <div class="filter-container">
+        <form method="get">
+            <div class="form-group">
+                <label for="cityFilter">Filter by City:</label>
+                <select id="cityFilter" name="SelectedCityId" class="form-control" onchange="this.form.submit()">
+                    <option value="">- Select City -</option>
+                    @foreach (var city in Model.Cities)
+                    {
+                        var selected = city.CityId == Model.SelectedCityId ? "selected" : "";
+                        <option value="@city.CityId" selected="@selected">@city.Name</option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
     <div class="card-container">
         @foreach (var hotel in Model.Hotels)
         {
             <div class="card">
                 <div class="card-header">
-                    @hotel.Name
+                    <a class="text-dark" asp-page="/Rooms" asp-route-hotelId="@hotel.HotelId">@hotel.Name</a>
+
                 </div>
                 <div class="card-body">
                     <p><strong>City:</strong> @hotel.City.Name</p>
-                    <p><strong>Type:</strong> @hotel.HotelType!.TypeName</p>
-                    <p><strong>Rooms:</strong></p>
-                    <ul class="room-list">
-                        @foreach (var room in hotel.Rooms)
-                        {
-                            <li>@room.RoomNumber</li>
-                        }
-                    </ul>
-                </div>
-                <div class="card-footer">
-                    Total Rooms: @hotel.Rooms.Count
+                    <img src="@hotel.PhotoUrl" alt="Room Photo" />
                 </div>
             </div>
         }

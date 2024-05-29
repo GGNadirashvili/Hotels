@@ -15,7 +15,6 @@ namespace Hotels.Pages
             this.db = db;
             Hotels = new List<Hotel>();
             Cities = new List<City>();
-
         }
 
         [BindProperty(SupportsGet = true)]
@@ -27,7 +26,7 @@ namespace Hotels.Pages
         {
             Cities = await db.Cities.ToListAsync();
 
-            IQueryable<Hotel> hotels = db.Hotels.Include(h => h.City).Include(h => h.HotelType).Include(h => h.Rooms);
+            IQueryable<Hotel> hotels = db.Hotels.Include(h => h.City).Include(h => h.Rooms);
 
             if (SelectedCityId.HasValue)
             {
@@ -37,7 +36,5 @@ namespace Hotels.Pages
             Hotels = await hotels.ToListAsync();
         }
     }
-
-
 }
 
