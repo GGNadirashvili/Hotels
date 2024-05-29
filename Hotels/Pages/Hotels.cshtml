@@ -1,0 +1,33 @@
+﻿@page
+@model HotelsModel
+@{
+    ViewData["Title"] = "Hotels page";
+
+}
+
+<body>
+    <div class="card-container">
+        @foreach (var hotel in Model.Hotels)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @hotel.Name
+                </div>
+                <div class="card-body">
+                    <p><strong>City:</strong> @hotel.City.Name</p>
+                    <p><strong>Type:</strong> @hotel.HotelType!.TypeName</p>
+                    <p><strong>Rooms:</strong></p>
+                    <ul class="room-list">
+                        @foreach (var room in hotel.Rooms)
+                        {
+                            <li>@room.RoomNumber</li>
+                        }
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    Total Rooms: @hotel.Rooms.Count
+                </div>
+            </div>
+        }
+    </div>
+</body>
