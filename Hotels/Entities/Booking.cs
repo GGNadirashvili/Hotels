@@ -9,5 +9,7 @@
         public DateTime CheckOutDate { get; set; }
         public decimal TotalPrice { get; set; }
         public string? Status { get; set; }
+        public string? HotelId { get; set; }
+        public string? RoomId { get; set; }
     }
 }

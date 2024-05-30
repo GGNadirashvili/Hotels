@@ -7,6 +7,7 @@
         public string? PhotoUrl { get; set; }
         public decimal UnitPrice { get; set; }
         public Hotel? Hotel { get; set; }
+        public bool IsFavorite { get; set; }
         public RoomType? RoomType { get; set; }
         public List<Booking> Bookings { get; set; } = new List<Booking>();
 

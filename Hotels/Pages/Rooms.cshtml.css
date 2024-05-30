@@ -17,10 +17,13 @@
     align-content: center;
     border: 2px solid green;
     border-radius: 8px;
-    padding:20px;
-
+    padding: 20px;
 }
 
     .room-card h2, .room-card p {
         margin: 0;
     }
+
+.isFavorite {
+    color:gold;
+}
