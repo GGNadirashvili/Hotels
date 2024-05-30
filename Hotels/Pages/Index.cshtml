@@ -4,7 +4,20 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome To Favorite Rooms</h1>
+<div class="container">
+    <h1 class="text-center mt-5">Welcome To Favorite Rooms</h1>
+    <div class="row mt-4">
+        @foreach (var room in Model.FavoriteRooms)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <img src="@room.PhotoUrl" class="card-img-top" alt="Room Photo">
+                    <div class="card-body">
+                        <h5 class="card-title">@room.Hotel!.Name - Room @room.RoomNumber</h5>
+                        <p class="card-text">Unit Price: @room.UnitPrice</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-

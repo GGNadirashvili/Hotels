@@ -35,6 +35,11 @@ namespace Hotels.Pages
         [BindProperty(SupportsGet = true)]
         public DateTime? CheckOut { get; set; }
 
+        [BindProperty]
+        public int RoomId { get; set; }
+
+        [FromQuery]
+        public int HotelId { get; set; }
         public async Task<IActionResult> OnGetAsync(int hotelId)
         {
             var query = db.Rooms
@@ -63,18 +68,18 @@ namespace Hotels.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostToggleFavoriteAsync(int roomId)
+        public async Task<IActionResult> OnPostAsync()
         {
-            var room = await db.Rooms.FindAsync(roomId);
-            if (room == null)
+            var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomId == RoomId);
+
+            if (room != null)
             {
-                return NotFound();
+                room.IsFavorite = !room.IsFavorite;
+
+                await db.SaveChangesAsync();
             }
 
-            room.IsFavorite = !room.IsFavorite;
-            await db.SaveChangesAsync();
-
-            return new JsonResult(new { success = true, isFavorite = room.IsFavorite });
+            return RedirectToPage(new { hotelId = HotelId });
         }
 
     }

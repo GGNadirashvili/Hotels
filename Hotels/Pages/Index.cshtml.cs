@@ -1,20 +1,27 @@
+using Hotels.Data;
+using Hotels.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotels.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ApplicationDbContext db;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ApplicationDbContext db)
         {
-            _logger = logger;
+            this.db = db;
+            FavoriteRooms = new List<Room>();
+
         }
 
-        public void OnGet()
+        public IList<Room> FavoriteRooms { get; set; }
+        public async Task<IActionResult> OnGetAsync()
         {
-
+            FavoriteRooms = await db.Rooms.Where(r => r.IsFavorite).Include(r => r.Hotel).ToListAsync();
+            return Page();
         }
     }
 }
