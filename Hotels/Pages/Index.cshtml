@@ -3,23 +3,21 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
-<div class="container">
-    <h1 class="text-center mt-5">Welcome To Favorite Rooms</h1>
-    <div class="row mt-4">
-        @foreach (var room in Model.FavoriteRooms)
-        {
-            <div class="col-md-3 mb-4">
-                <a asp-page="/Rooms" asp-route-hotelId="@room.Hotel.HotelId">
-                    <div class="card">
-                        <img src="@room.PhotoUrl" class="card-img-top" alt="Room Photo">
-                        <div class="card-body">
-                            <h5 class="card-title">@room.Hotel!.Name - Room @room.RoomNumber</h5>
-                            <p class="card-text">Unit Price: @room.UnitPrice$</p>
-                        </div>
+<section>
+<div class="card-container">
+    @foreach (var room in Model.FavoriteRooms)
+    {
+        <div class="card p-3">
+            <a asp-page="/Rooms" asp-route-hotelId="@room.Hotel!.HotelId">
+                <div>
+                    <img src="@room.PhotoUrl" class="card-img-top" alt="Room Photo">
+                    <div class="card-body">
+                        <h5 class="card-title">@room.Hotel!.Name - Room @room.RoomNumber</h5>
+                        <p class="card-text">Unit Price: @room.UnitPrice$</p>
                     </div>
-                </a>
-            </div>
-        }
-    </div>
+                </div>
+            </a>
+        </div>
+    }
 </div>
+</section>
