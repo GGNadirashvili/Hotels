@@ -12,6 +12,37 @@
 
 <section>
     <h1>Hotel Rooms</h1>
+  @*   <div>
+        <div class="form-group col-3">
+            <label for="RoomType">Room Type</label>
+            <select id="RoomType" name="RoomType" class="form-control">
+                <option value="">All</option>
+                @foreach (var roomType in Model.RoomTypes)
+                {
+                    var selected = roomType == Model.RoomType ? "selected" : "";
+                    <option value="@roomType" selected="@selected">@roomType</option>
+                }
+            </select>
+            <label for="MinPrice">Minimum Price</label>
+            <input type="number" id="MinPrice" name="MinPrice" class="form-control" value="@Model.MinPrice" />
+        </div>
+        <div class="form-group col-3">
+            <label for="MaxPrice">Maximum Price</label>
+            <input type="number" id="MaxPrice" name="MaxPrice" class="form-control" value="@Model.MaxPrice" />
+        </div>
+        <div class="form-group col-3">
+            <label for="CheckIn">Check-In Date</label>
+            <input type="date" id="CheckIn" name="CheckIn" class="form-control" value="@Model.CheckIn?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group col-3">
+            <label for="CheckOut">Check-Out Date</label>
+            <input type="date" id="CheckOut" name="CheckOut" class="form-control" value="@Model.CheckOut?.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <button type="submit" class="btn btn-primary my-3">Filter</button>
+        <a href="/Rooms" class="btn btn-secondary">Reset</a>
+    </div> *@
+
     <div class="room-container my-3 ">
         @foreach (var room in Model.Rooms)
         {

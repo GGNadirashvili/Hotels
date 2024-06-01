@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotels.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240529130650_InitialMigration")]
+    [Migration("20240531103207_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -39,14 +39,17 @@ namespace Hotels.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsBooked")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("RoomId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18, 2)");
@@ -54,6 +57,8 @@ namespace Hotels.Migrations
                     b.HasKey("BookingId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("HotelId");
 
                     b.HasIndex("RoomId");
 
@@ -109,6 +114,9 @@ namespace Hotels.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("HotelId");
 
                     b.HasIndex("CityId");
@@ -124,8 +132,11 @@ namespace Hotels.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
 
-                    b.Property<int?>("HotelId")
+                    b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsFavorite")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
@@ -168,13 +179,23 @@ namespace Hotels.Migrations
                 {
                     b.HasOne("Hotels.Entities.Customer", "Customer")
                         .WithMany("Bookings")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hotels.Entities.Hotel", "Hotel")
+                        .WithMany("Booking")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Hotels.Entities.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Hotel");
 
                     b.Navigation("Room");
                 });
@@ -194,7 +215,9 @@ namespace Hotels.Migrations
                 {
                     b.HasOne("Hotels.Entities.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelId");
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hotels.Entities.RoomType", "RoomType")
                         .WithMany()
@@ -217,6 +240,8 @@ namespace Hotels.Migrations
 
             modelBuilder.Entity("Hotels.Entities.Hotel", b =>
                 {
+                    b.Navigation("Booking");
+
                     b.Navigation("Rooms");
                 });
 

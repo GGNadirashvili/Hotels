@@ -28,6 +28,36 @@ namespace Hotels.Data
             modelBuilder.Entity<Room>()
                 .Property(r => r.UnitPrice)
                 .HasColumnType("decimal(18, 2)");
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Room>()
+                .HasKey(r => r.RoomId);
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Hotel)
+                .WithMany(h => h.Rooms)
+                .HasForeignKey(r => r.HotelId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Booking>()
+                .HasKey(b => b.BookingId);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Room)
+                .WithMany(r => r.Bookings)
+                .HasForeignKey(b => b.RoomId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Hotel)
+                .WithMany(h => h.Booking)
+                .HasForeignKey(b => b.HotelId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Hotel>()
+                .HasKey(h => h.HotelId);
+
+
         }
     }
 }

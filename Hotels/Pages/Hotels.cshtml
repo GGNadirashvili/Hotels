@@ -5,7 +5,8 @@
 
 }
 
-@section Head {}
+@section Head {
+}
 
 <body>
     <div class="filter-container">
@@ -27,14 +28,15 @@
         @foreach (var hotel in Model.Hotels)
         {
             <div class="card">
-                <div class="card-header">
-                    <a class="text-dark" asp-page="/Rooms" asp-route-hotelId="@hotel.HotelId">@hotel.Name</a>
-
-                </div>
-                <div class="card-body">
-                    <p><strong>City:</strong> @hotel.City.Name</p>
-                    <img src="@hotel.PhotoUrl" alt="Room Photo" />
-                </div>
+                <a class="text-dark" asp-page="/Rooms" asp-route-hotelId="@hotel.HotelId">
+                    <div class="card-header  text-black">
+                        @hotel.Name
+                    </div>
+                    <div class="card-body">
+                        <p><strong>City:</strong> @hotel.City.Name</p>
+                        <img src="@hotel.PhotoUrl" alt="Room Photo" />
+                    </div>
+                </a>
             </div>
         }
     </div>

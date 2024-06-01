@@ -36,20 +36,17 @@ namespace Hotels.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("HotelId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoomId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RoomId1")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsBooked")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18, 2)");
@@ -58,7 +55,9 @@ namespace Hotels.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("RoomId1");
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Bookings");
                 });
@@ -130,7 +129,7 @@ namespace Hotels.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
 
-                    b.Property<int?>("HotelId")
+                    b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsFavorite")
@@ -177,13 +176,23 @@ namespace Hotels.Migrations
                 {
                     b.HasOne("Hotels.Entities.Customer", "Customer")
                         .WithMany("Bookings")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hotels.Entities.Hotel", "Hotel")
+                        .WithMany("Booking")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Hotels.Entities.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomId1");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Hotel");
 
                     b.Navigation("Room");
                 });
@@ -203,7 +212,9 @@ namespace Hotels.Migrations
                 {
                     b.HasOne("Hotels.Entities.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelId");
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hotels.Entities.RoomType", "RoomType")
                         .WithMany()
@@ -226,6 +237,8 @@ namespace Hotels.Migrations
 
             modelBuilder.Entity("Hotels.Entities.Hotel", b =>
                 {
+                    b.Navigation("Booking");
+
                     b.Navigation("Rooms");
                 });
 
