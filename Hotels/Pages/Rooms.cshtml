@@ -46,8 +46,9 @@
     <div class="card-container">
         @foreach (var room in Model.Rooms)
         {
-            <div class="card p-3">
-                <form method="post">
+            if (!room.IsBooked){
+                <div class="card p-3">
+                    <form method="post">
                     <div class="d-flex justify-content-between">
                         <h2>Room N:@room.RoomNumber</h2>
                         <button class="FavButton border-0 onclick=" toggleFavorite(@room.RoomId)"">
@@ -64,6 +65,7 @@
                 <span class="d-flex pb-2">@room.RoomType!.TypeName</span>
                 <img src="@room.PhotoUrl" alt="Room Photo" />
             </div>
+            }
         }
     </div>
 

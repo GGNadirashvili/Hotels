@@ -2,43 +2,68 @@
 @model Hotels.Pages.BookingFormModel
 @{
 }
+<section>
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Booking.HotelId" class="control-label"></label>
+                    <input asp-for="Booking.HotelId" class="form-control" disabled />
+                    <input type="hidden" asp-for="Booking.HotelId" />
+                    <span asp-validation-for="Booking.HotelId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Booking.RoomId" class="control-label"></label>
+                    <input asp-for="Booking.RoomId" class="form-control" disabled />
+                    <span asp-validation-for="Booking.RoomId" class="text-danger"></span>
+                    <input type="hidden" asp-for="Booking.RoomId" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Booking.CustomerId" class="control-label"></label>
+                    <input asp-for="Booking.CustomerId" class="form-control" />
+                    <span asp-validation-for="Booking.CustomerId" class="text-danger"></span>
+                    <span asp-validation-for="Booking.CustomerId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Booking.TotalPrice" class="control-label"></label>
+                    <input asp-for="Booking.TotalPrice" class="form-control" disabled />
+                    <span asp-validation-for="Booking.TotalPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Booking.CheckInDate" class="control-label"></label>
+                    <input asp-for="Booking.CheckInDate" class="form-control" id="checkInDate" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="Booking.CheckInDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Booking.CheckOutDate" class="control-label"></label>
+                    <input asp-for="Booking.CheckOutDate" class="form-control" id="checkOutDate" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="Booking.CheckOutDate" class="text-danger"></span>
+                </div>
 
-<form method="post">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Booking.HotelId" class="control-label"></label>
-                <input asp-for="Booking.HotelId" class="form-control" />
-                <span asp-validation-for="Booking.HotelId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Booking.RoomId" class="control-label"></label>
-                <input asp-for="Booking.RoomId" class="form-control" />
-                <span asp-validation-for="Booking.RoomId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Booking.CustomerId" class="control-label"></label>
-                <input asp-for="Booking.CustomerId" class="form-control" />
-                <span asp-validation-for="Booking.CustomerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Booking.TotalPrice" class="control-label"></label>
-                <input asp-for="Booking.TotalPrice" class="form-control" />
-                <span asp-validation-for="Booking.TotalPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Booking.CheckInDate" class="control-label"></label>
-                <input asp-for="Booking.CheckInDate" class="form-control" />
-                <span asp-validation-for="Booking.CheckInDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Booking.CheckOutDate" class="control-label"></label>
-                <input asp-for="Booking.CheckOutDate" class="form-control" />
-                <span asp-validation-for="Booking.CheckOutDate" class="text-danger"></span>
-            </div>
-            <div class="form-group my-3">
-                <input type="submit" value="Book" class="btn btn-primary" />
+
+                <div class="form-group my-3">
+                    <input type="submit" value="Book" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</section>
+
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('checkInDate').value = today;
+    document.getElementById('checkOutDate').value = today;
+
+    document.getElementById('checkInDate').addEventListener('change', function () {
+        var checkInDate = new Date(this.value);
+
+        var minCheckOutDate = new Date(checkInDate);
+        minCheckOutDate.setDate(checkInDate.getDate() + 1);
+
+        document.getElementById('checkOutDate').setAttribute('min', minCheckOutDate.toISOString().split('T')[0]);
+
+        if (new Date(document.getElementById('checkOutDate').value) < minCheckOutDate) {
+            document.getElementById('checkOutDate').value = minCheckOutDate.toISOString().split('T')[0];
+        }
+    });
+</script>
