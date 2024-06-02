@@ -15,7 +15,7 @@
                         <p><strong>Hotel:</strong> @booking.Hotel!.Name</p>
                         <form method="post" style="display:inline;">
                             <input type="hidden" name="roomId" value="@booking.RoomId" />
-                            <button type="submit" class="btn btn-link p-0"><i class="fa-solid fa-trash pointer"></i></button>
+                            <button type="submit" class="btn btn-link p-0"><i class="fa-solid fa-trash pointer text-danger"></i></button>
                         </form>
                     </div>
                     <a class="text-dark" asp-page="/Rooms" asp-route-hotelId="@booking.HotelId">

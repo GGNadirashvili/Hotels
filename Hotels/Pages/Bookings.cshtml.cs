@@ -27,11 +27,14 @@ namespace Hotels.Pages
         }
         public async Task<IActionResult> OnPostAsync(int RoomId)
         {
-            var booking = await db.Bookings.FirstOrDefaultAsync(x => x.RoomId == RoomId);
+            var booking = await db.Bookings
+                .Include(r=>r.Room)
+                .FirstOrDefaultAsync(x => x.RoomId == RoomId);
 
             if (booking != null)
             {
                 booking.IsBooked = false;
+                booking.Room!.IsBooked = false;
 
                 await db.SaveChangesAsync();
             }
