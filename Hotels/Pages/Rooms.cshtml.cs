@@ -3,6 +3,7 @@ using Hotels.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Hotels.Pages
 {
@@ -20,50 +21,43 @@ namespace Hotels.Pages
 
         public IList<Room> Rooms { get; set; }
         public IList<string> RoomTypes { get; set; }
-        [BindProperty(SupportsGet = true)]
+
+        [BindProperty]
         public string? RoomType { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public decimal? MinPrice { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public decimal? MaxPrice { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public DateTime? CheckIn { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public DateTime? CheckOut { get; set; }
 
         [BindProperty]
         public int RoomId { get; set; }
 
         [FromQuery]
         public int HotelId { get; set; }
-        public async Task<IActionResult> OnGetAsync(int hotelId)
+
+        [BindProperty]
+        public int MinPrice { get; set; }
+        [BindProperty]
+        public int MaxPrice { get; set; }
+        public async Task<IActionResult> OnGetAsync(int hotelId, int minPrice, int maxPrice, string? roomType)
+
         {
-            var query = db.Rooms
-                .Where(r => r.Hotel!.HotelId == hotelId)
-                .Include(r => r.RoomType)
-                .AsQueryable();
-
-            if (!string.IsNullOrEmpty(RoomType))
-            {
-                query = query.Where(r => r.RoomType!.TypeName == RoomType);
-            }
-
-            if (MinPrice.HasValue)
-            {
-                query = query.Where(r => r.UnitPrice >= MinPrice.Value);
-            }
-
-            if (MaxPrice.HasValue)
-            {
-                query = query.Where(r => r.UnitPrice <= MaxPrice.Value);
-            }
-
-            Rooms = await query.ToListAsync();
+            MinPrice = minPrice;
+            MaxPrice = maxPrice;
             RoomTypes = await db.RoomTypes.Select(rt => rt.TypeName!).Distinct().ToListAsync();
+
+
+            IQueryable<Room> room = db.Rooms
+                .Include(r => r.RoomType)
+                .Where(r => r.HotelId == hotelId);
+
+            if (maxPrice > minPrice)
+            {
+                room = room.Where(r => r.UnitPrice >= minPrice && r.UnitPrice <= maxPrice);
+            }
+
+            if (!string.IsNullOrEmpty(roomType))
+            {
+                room = room.Where(r => r.RoomType!.TypeName == roomType);
+            }
+
+            Rooms = await room.ToListAsync();
 
             return Page();
         }
@@ -79,8 +73,21 @@ namespace Hotels.Pages
                 await db.SaveChangesAsync();
             }
 
-            return RedirectToPage(new { hotelId = HotelId });
+            return RedirectToPage(new { hotelId = HotelId, minPrice = MinPrice, maxPrice = MaxPrice, roomType = RoomType });
         }
+        public async Task<IActionResult> OnPostButtonClick(int hotelId)
+        {
+            Rooms = await db.Rooms
+            .Include(r => r.RoomType)
+            .Where(r => r.HotelId == hotelId)
+            .ToListAsync();
 
+            HotelId = hotelId;
+            MinPrice = 0;
+            MaxPrice = 0;
+            RoomType = null;
+
+            return RedirectToPage(new { hotelId = HotelId, minPrice = MinPrice, maxPrice = MaxPrice, roomType = RoomType });
+        }
     }
 }

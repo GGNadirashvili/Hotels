@@ -12,59 +12,55 @@
 
 <section>
     <h1>Hotel Rooms</h1>
-    @*   <div>
-    <div class="form-group col-3">
-    <label for="RoomType">Room Type</label>
-    <select id="RoomType" name="RoomType" class="form-control">
-    <option value="">All</option>
-    @foreach (var roomType in Model.RoomTypes)
-    {
-    var selected = roomType == Model.RoomType ? "selected" : "";
-    <option value="@roomType" selected="@selected">@roomType</option>
-    }
-    </select>
-    <label for="MinPrice">Minimum Price</label>
-    <input type="number" id="MinPrice" name="MinPrice" class="form-control" value="@Model.MinPrice" />
-    </div>
-    <div class="form-group col-3">
-    <label for="MaxPrice">Maximum Price</label>
-    <input type="number" id="MaxPrice" name="MaxPrice" class="form-control" value="@Model.MaxPrice" />
-    </div>
-    <div class="form-group col-3">
-    <label for="CheckIn">Check-In Date</label>
-    <input type="date" id="CheckIn" name="CheckIn" class="form-control" value="@Model.CheckIn?.ToString("yyyy-MM-dd")" />
-    </div>
-    <div class="form-group col-3">
-    <label for="CheckOut">Check-Out Date</label>
-    <input type="date" id="CheckOut" name="CheckOut" class="form-control" value="@Model.CheckOut?.ToString("yyyy-MM-dd")" />
-    </div>
 
-    <button type="submit" class="btn btn-primary my-3">Filter</button>
-    <a href="/Rooms" class="btn btn-secondary">Reset</a>
-    </div> *@
+    <form method="post">
+        <div class="d-flex flex-column gap-3">
+            <select id="RoomType" name="RoomType" asp-for="RoomType" class="form-control">
+                <option value="">All</option>
+                @foreach (var type in Model.RoomTypes)
+                {
+                    <option value="@type">@type</option>
+                }
+            </select>
+            <div class="col-3">
+                <input class="form-control" type="number" asp-for="MinPrice" value="@Model.MinPrice" placeholder="enter min price" />
+            </div>
+            <div class="col-3">
+                <input class="form-control" type="number" asp-for="MaxPrice" value="@Model.MaxPrice" placeholder="enter max price" />
+            </div>
+            <div>
+            </div>
+        </div>
+        <button class="btn btn-success border-2" type="submit">Search</button>
+    </form>
+    <form asp-page-handler="ButtonClick" method="post">
+        <input type="hidden" name="hotelId" value="@Model.HotelId" />
+        <button class="btn btn-outline-primary my-2" type="submit">Clear Filters</button>
+    </form>
+
 
     <div class="card-container">
         @foreach (var room in Model.Rooms)
         {
-            if (!room.IsBooked){
+            if (!room.IsBooked)
+            {
                 <div class="card p-3">
                     <form method="post">
-                    <div class="d-flex justify-content-between">
-                        <h2>Room N:@room.RoomNumber</h2>
-                        <button class="FavButton border-0 onclick=" toggleFavorite(@room.RoomId)"">
-                            <i class="favIcon pointer fa-regular fa-star @(room.IsFavorite ? "isFavorite" : "") "></i>
-                        </button>
-                        <input type="hidden" asp-for="RoomId" value="@room.RoomId" />
+                        <div class="d-flex justify-content-between">
+                            <h2>Room N:@room.RoomNumber</h2>
+                            <button class="FavButton border-0">
+                                <i class="favIcon pointer fa-regular fa-star @(room.IsFavorite ? "isFavorite" : "") "></i>
+                            </button>
+                            <input type="hidden" asp-for="RoomId" value="@room.RoomId" />
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-between pb-2">
+                        <p>Price: @room.UnitPrice$</p>
+                        <a class="btn btn-success" asp-page="/BookingForm" asp-route-hotelId="@room.HotelId" asp-route-roomId="@room.RoomId" asp-route-price="@room.UnitPrice">Book</a>
                     </div>
-                </form>
-                <div class="d-flex justify-content-between pb-2">
-                    <p>Price: @room.UnitPrice$</p>
-                    <a class="btn btn-success" asp-page="/BookingForm" asp-route-hotelId="@room.HotelId" asp-route-roomId="@room.RoomId" asp-route-price="@room.UnitPrice">Book</a>
-
+                    <span class="d-flex pb-2">@room.RoomType?.TypeName</span>
+                    <img src="@room.PhotoUrl" alt="Room Photo" />
                 </div>
-                <span class="d-flex pb-2">@room.RoomType!.TypeName</span>
-                <img src="@room.PhotoUrl" alt="Room Photo" />
-            </div>
             }
         }
     </div>
