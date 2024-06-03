@@ -13,12 +13,11 @@
         <form method="get">
             <div class="form-group">
                 <label for="cityFilter">Filter by City:</label>
-                <select id="cityFilter" name="SelectedCityId" class="form-control" onchange="this.form.submit()">
-                    <option value="">- Select City -</option>
+                <select id="cityFilter" asp-for="SelectedCityId" class="form-control" onchange="this.form.submit()">
+                    <option value="">All</option>
                     @foreach (var city in Model.Cities)
                     {
-                        var selected = city.CityId == Model.SelectedCityId ? "selected" : "";
-                        <option value="@city.CityId" selected="@selected">@city.Name</option>
+                        <option value="@city.CityId">@city.Name</option>
                     }
                 </select>
             </div>
