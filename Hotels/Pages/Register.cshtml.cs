@@ -31,7 +31,7 @@ namespace Hotels.Pages
             {
                 Guid customerGuid = Guid.NewGuid();
 
-                await CreateCustomer(customerGuid);
+                await CreateCustomer(customerGuid.ToString());
 
                 var user = new IdentityUser()
                 {
@@ -56,7 +56,7 @@ namespace Hotels.Pages
 
             return Page();
         }
-        private async Task CreateCustomer(Guid customerGuid)
+        private async Task CreateCustomer(string customerGuid)
         {
             var customer = new Customer
             {
@@ -64,7 +64,7 @@ namespace Hotels.Pages
                 LastName = Register.LastName,
                 Email = Register.Email,
                 Number = Register.Number,
-                CustomerGuid = customerGuid.ToString()
+                CustomerGuid = customerGuid
             };
 
             db.Customers.Add(customer);

@@ -3,6 +3,7 @@ using Hotels.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Hotels.Pages
 {
@@ -39,7 +40,9 @@ namespace Hotels.Pages
             {
                 Booking.RoomId = roomId.Value;
             }
+            var CustomerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            Booking.CustomerGuid = CustomerGuid;
             Booking.TotalPrice = price;
         }
 
@@ -51,14 +54,14 @@ namespace Hotels.Pages
                 return Page();
             }
 
-            var existingCustomer = await db.Customers.FindAsync(Booking.CustomerId);
-            if (existingCustomer == null)
-            {
-                ModelState.AddModelError("Booking.CustomerId", "Invalid customer ID.");
-                await OnGetAsync(Booking.HotelId, Booking.RoomId, Booking.TotalPrice);
-                return Page();
-            }
+            //var existingCustomer = await db.Customers.FindAsync(Booking.CustomerId);
+            //if (existingCustomer == null)
+            //{
+            //    ModelState.AddModelError("Booking.CustomerId", "Invalid customer ID.");
+            //    return Page();
+            //}
             
+            await OnGetAsync(Booking.HotelId, Booking.RoomId, Booking.TotalPrice);
             db.Bookings.Add(Booking);
 
             var room = await db.Rooms.FindAsync(Booking.RoomId);

@@ -4,7 +4,7 @@
     {
         public int BookingId { get; set; }
         public int? HotelId { get; set; }
-        public int CustomerId { get; set; }
+        public string? CustomerGuid { get; set; }
         public int? RoomId { get; set; }
         public bool IsBooked { get; set; }
         public decimal TotalPrice { get; set; }

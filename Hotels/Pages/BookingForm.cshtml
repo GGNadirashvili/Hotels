@@ -19,12 +19,6 @@
                     <input type="hidden" asp-for="Booking.RoomId" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Booking.CustomerId" class="control-label"></label>
-                    <input asp-for="Booking.CustomerId" class="form-control" />
-                    <span asp-validation-for="Booking.CustomerId" class="text-danger"></span>
-                    <span asp-validation-for="Booking.CustomerId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Booking.TotalPrice" class="control-label"></label>
                     <input asp-for="Booking.TotalPrice" class="form-control" disabled />
                     <span asp-validation-for="Booking.TotalPrice" class="text-danger"></span>
@@ -39,8 +33,6 @@
                     <input asp-for="Booking.CheckOutDate" class="form-control" id="checkOutDate" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
                     <span asp-validation-for="Booking.CheckOutDate" class="text-danger"></span>
                 </div>
-
-
                 <div class="form-group my-3">
                     <input type="submit" value="Book" class="btn btn-primary" />
                 </div>
