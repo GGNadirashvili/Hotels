@@ -1,0 +1,33 @@
+﻿@page
+@model Hotels.Pages.LoginModel
+@{
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-lg-4">
+            <h1 class="mb-3">Login</h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Login.Email">Email Address</label>
+                    <input type="text" asp-for="Login.Email" class="form-control" />
+                    <span asp-validation-for="Login.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Login.Password">Password</label>
+                    <input type="password" asp-for="Login.Password" class="form-control" />
+                    <span asp-validation-for="Login.Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" asp-for="Login.RememberMe" class="form-check-input" />
+                    <label class="form-check-label" asp-for="Login.RememberMe">Remember Me ?</label>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-success">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

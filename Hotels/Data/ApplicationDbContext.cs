@@ -1,9 +1,11 @@
 ﻿using Hotels.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotels.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -28,7 +30,6 @@ namespace Hotels.Data
             modelBuilder.Entity<Room>()
                 .Property(r => r.UnitPrice)
                 .HasColumnType("decimal(18, 2)");
-            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Room>()
                 .HasKey(r => r.RoomId);

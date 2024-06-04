@@ -3,7 +3,6 @@ using Hotels.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Hotels.Pages
 {
@@ -32,10 +31,10 @@ namespace Hotels.Pages
         public int HotelId { get; set; }
 
         [BindProperty]
-        public int MinPrice { get; set; }
+        public string? MinPrice { get; set; }
         [BindProperty]
-        public int MaxPrice { get; set; }
-        public async Task<IActionResult> OnGetAsync(int hotelId, int minPrice, int maxPrice, string? roomType)
+        public string? MaxPrice { get; set; }
+        public async Task<IActionResult> OnGetAsync(int hotelId, string minPrice, string maxPrice, string? roomType)
 
         {
             MinPrice = minPrice;
@@ -47,9 +46,14 @@ namespace Hotels.Pages
                 .Include(r => r.RoomType)
                 .Where(r => r.HotelId == hotelId);
 
-            if (maxPrice > minPrice)
+            if(!string.IsNullOrEmpty(maxPrice) && !string.IsNullOrEmpty(minPrice))
             {
-                room = room.Where(r => r.UnitPrice >= minPrice && r.UnitPrice <= maxPrice);
+                int minPriceInt = int.Parse(minPrice);
+                int maxPriceInt = int.Parse(maxPrice);
+                if (maxPriceInt > minPriceInt)
+                {
+                    room = room.Where(r => r.UnitPrice >= minPriceInt && r.UnitPrice <= maxPriceInt);
+                }
             }
 
             if (!string.IsNullOrEmpty(roomType))
@@ -83,8 +87,8 @@ namespace Hotels.Pages
             .ToListAsync();
 
             HotelId = hotelId;
-            MinPrice = 0;
-            MaxPrice = 0;
+            MinPrice = "";
+            MaxPrice = "";
             RoomType = null;
 
             return RedirectToPage(new { hotelId = HotelId, minPrice = MinPrice, maxPrice = MaxPrice, roomType = RoomType });

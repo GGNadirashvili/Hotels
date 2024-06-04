@@ -78,3 +78,8 @@ img {
     height: 250px;
     width: 250px;
 }
+
+*{
+    text-decoration:none;
+    list-style:none;
+}

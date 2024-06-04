@@ -1,11 +1,13 @@
 using Hotels.Data;
 using Hotels.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotels.Pages
 {
+    [Authorize]
     public class BookingsModel : PageModel
     {
         private readonly ApplicationDbContext db;
