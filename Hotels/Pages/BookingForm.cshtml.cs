@@ -54,13 +54,6 @@ namespace Hotels.Pages
                 return Page();
             }
 
-            //var existingCustomer = await db.Customers.FindAsync(Booking.CustomerId);
-            //if (existingCustomer == null)
-            //{
-            //    ModelState.AddModelError("Booking.CustomerId", "Invalid customer ID.");
-            //    return Page();
-            //}
-            
             await OnGetAsync(Booking.HotelId, Booking.RoomId, Booking.TotalPrice);
             db.Bookings.Add(Booking);
 

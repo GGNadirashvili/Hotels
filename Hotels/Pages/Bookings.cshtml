@@ -8,8 +8,6 @@
     <div class="card-container">
         @foreach (var booking in Model.CustomerBookings)
         {
-            if (booking.Bookings.IsBooked)
-            {
                 <div class="card">
                     <div class="card-header  text-black d-flex justify-content-between">
                         <p><strong>Hotel:</strong> @booking.Bookings.Hotel!.Name</p>
@@ -33,6 +31,5 @@
                     </a>
                 </div>
             }
-        }
     </div>
 </section>

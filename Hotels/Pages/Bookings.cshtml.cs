@@ -47,7 +47,8 @@ namespace Hotels.Pages
 
             if (booking != null)
             {
-                booking.IsBooked = false;
+                //booking.IsBooked = false;
+                db.Bookings.Remove(booking);
                 booking.Room!.IsBooked = false;
 
                 await db.SaveChangesAsync();
