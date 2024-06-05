@@ -20,14 +20,24 @@ namespace Hotels.Pages
         public IList<Room> FavoriteRooms { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
-            var customerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (User.Identity!.IsAuthenticated)
+            {
+                var customerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            FavoriteRooms = await db.Rooms
-                .Include(r => r.Hotel)
-                .Include(r => r.Bookings)
-                .Where(r => r.IsFavorite 
-                && r.CustomerGuid == customerGuid)
-                .ToListAsync();
+                FavoriteRooms = await db.Rooms
+                    .Include(r => r.Hotel)
+                    .Include(r => r.Bookings)
+                    .Where(r => r.IsFavorite && r.CustomerGuid == customerGuid)
+                    .ToListAsync();
+            }
+            else
+            {
+                FavoriteRooms = await db.Rooms
+                    .Include(r => r.Hotel)
+                    .Include(r => r.Bookings)
+                    .Where(r => r.IsFavorite)
+                    .ToListAsync();
+            }
             return Page();
         }
     }

@@ -30,7 +30,7 @@ namespace Hotels.Pages
         {
             var customerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var query = from booking in db.Bookings.Include(b => b.Hotel).Include(b => b.Room).Include(b => b!.Hotel.City)
+            var query = from booking in db.Bookings.Include(b => b.Hotel).Include(b => b.Room).Include(b => b.Hotel!.City)
                         join customer in db.Customers on booking.CustomerGuid equals customer.CustomerGuid
                         where booking.CustomerGuid == customerGuid
                         select new CustomerBookings { Bookings = booking, Customer = customer };
