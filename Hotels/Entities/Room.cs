@@ -4,6 +4,8 @@
     {
         public int RoomId { get; set; }
         public int HotelId { get; set; }
+        public string? CustomerGuid { get; set; }
+
         public string? RoomNumber { get; set; }
         public string? PhotoUrl { get; set; }
         public decimal UnitPrice { get; set; }

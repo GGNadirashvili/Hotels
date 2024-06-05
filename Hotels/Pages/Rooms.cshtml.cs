@@ -3,6 +3,7 @@ using Hotels.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Hotels.Pages
 {
@@ -46,7 +47,7 @@ namespace Hotels.Pages
                 .Include(r => r.RoomType)
                 .Where(r => r.HotelId == hotelId);
 
-            if(!string.IsNullOrEmpty(maxPrice) && !string.IsNullOrEmpty(minPrice))
+            if (!string.IsNullOrEmpty(maxPrice) && !string.IsNullOrEmpty(minPrice))
             {
                 int minPriceInt = int.Parse(minPrice);
                 int maxPriceInt = int.Parse(maxPrice);
@@ -68,11 +69,21 @@ namespace Hotels.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var customerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomId == RoomId);
 
             if (room != null)
             {
                 room.IsFavorite = !room.IsFavorite;
+
+                if (room.IsFavorite)
+                {
+                    room.CustomerGuid = customerGuid;
+                }
+                else if (room.IsFavorite is false)
+                {
+                    room.CustomerGuid = "";
+                }
 
                 await db.SaveChangesAsync();
             }

@@ -40,9 +40,9 @@ namespace Hotels.Pages
             {
                 Booking.RoomId = roomId.Value;
             }
-            var CustomerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Booking.CustomerGuid = CustomerGuid;
+            Booking.CustomerGuid = customerGuid;
             Booking.TotalPrice = price;
         }
 
