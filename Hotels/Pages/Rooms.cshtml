@@ -40,6 +40,8 @@
 
 
     <div class="card-container">
+        @if (Model.Rooms.Any())
+        {
         @foreach (var room in Model.Rooms)
         {
             if (!room.IsBooked)
@@ -62,6 +64,13 @@
                     <img src="@room.PhotoUrl" alt="Room Photo" />
                 </div>
             }
+            }
+        }
+        else
+        {
+            <span>
+                There is not rooms to display
+            </span>
         }
     </div>
 
