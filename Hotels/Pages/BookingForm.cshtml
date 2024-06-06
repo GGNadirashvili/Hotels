@@ -6,6 +6,18 @@
     <form method="post">
         <div class="row">
             <div class="col-md-4">
+                <div class="form-group">
+                    <label>Hotel Name</label>
+                    <input class="form-control" value="@Model.HotelName" disabled />
+                </div>
+                <div class="form-group">
+                    <label>Room Number</label>
+                    <input class="form-control" value="@Model.RoomNumber" disabled />
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input class="form-control" value="@Model.Price.ToString("C")" disabled />
+                </div>
                 <div class="form-group d-none">
                     <label asp-for="Booking.HotelId" class="control-label"></label>
                     <input asp-for="Booking.HotelId" class="form-control" disabled />

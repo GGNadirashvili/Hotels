@@ -21,26 +21,38 @@ namespace Hotels.Pages
 
         [BindProperty]
         public List<Room> Rooms { get; set; }
+
+        public string RoomNumber { get; set; }
+        public string HotelName { get; set; }
+        public string City { get; set; }
+        public decimal Price { get; set; }
         public BookingFormModel(ApplicationDbContext db)
         {
             this.db = db;
             Booking = new Booking();
             Hotels = new List<Hotel>();
             Rooms = new List<Room>();
+            RoomNumber = string.Empty;
+            HotelName = string.Empty;
+            City = string.Empty;
         }
         public async Task OnGetAsync(int? hotelId, int? roomId, decimal price)
         {
             Hotels = await db.Hotels.ToListAsync();
             Rooms = await db.Rooms.ToListAsync();
+            var hotel = await db.Hotels.FirstOrDefaultAsync(x => x.HotelId == hotelId!.Value);
 
             if (hotelId.HasValue)
             {
                 Booking.HotelId = hotelId.Value;
+                HotelName = hotel.Name!;
             }
 
             if (roomId.HasValue)
             {
                 Booking.RoomId = roomId.Value;
+                RoomNumber = hotel.Rooms.FirstOrDefault(x=>x!.RoomId == roomId).RoomNumber;
+                Price = hotel.Rooms.FirstOrDefault(x => x.RoomId == roomId).UnitPrice;
             }
             var customerGuid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
