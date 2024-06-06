@@ -6,19 +6,19 @@
     <form method="post">
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="form-group d-none">
                     <label asp-for="Booking.HotelId" class="control-label"></label>
                     <input asp-for="Booking.HotelId" class="form-control" disabled />
-                    <input type="hidden" asp-for="Booking.HotelId" />
+                    <input type="hidden" asp-for="Booking.HotelId" /> 
                     <span asp-validation-for="Booking.HotelId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group d-none">
                     <label asp-for="Booking.RoomId" class="control-label"></label>
                     <input asp-for="Booking.RoomId" class="form-control" disabled />
                     <span asp-validation-for="Booking.RoomId" class="text-danger"></span>
                     <input type="hidden" asp-for="Booking.RoomId" />
                 </div>
-                <div class="form-group">
+                <div class="form-group d-none">
                     <label asp-for="Booking.TotalPrice" class="control-label"></label>
                     <input asp-for="Booking.TotalPrice" class="form-control" disabled />
                     <span asp-validation-for="Booking.TotalPrice" class="text-danger"></span>

@@ -1,5 +1,6 @@
 using Hotels.Data;
 using Hotels.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 
 namespace Hotels.Pages
 {
+    [Authorize]
     public class BookingFormModel : PageModel
     {
         private readonly ApplicationDbContext db;

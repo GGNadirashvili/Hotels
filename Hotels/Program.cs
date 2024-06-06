@@ -18,6 +18,7 @@ builder.Services.ConfigureApplicationCookie(config =>
 {
     config.LoginPath = "/Login";
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,7 +51,6 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole(role));
     }
 }
-
 
 using (var scope = app.Services.CreateScope())
 {

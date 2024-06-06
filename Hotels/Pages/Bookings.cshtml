@@ -6,30 +6,42 @@
 
 <section>
     <div class="card-container">
-        @foreach (var booking in Model.CustomerBookings)
+        @if (Model.CustomerBookings.Any())
         {
-                <div class="card">
-                    <div class="card-header  text-black d-flex justify-content-between">
-                        <p><strong>Hotel:</strong> @booking.Bookings!.Hotel!.Name</p>
-                        <form method="post" style="display:inline;">
-                            <input type="hidden" name="roomId" value="@booking.Bookings.RoomId" />
-                            <button type="submit" class="btn btn-link p-0"><i class="fa-solid fa-trash pointer text-danger"></i></button>
-                        </form>
-                    </div>
-                    <a class="text-dark" asp-page="/Rooms" asp-route-hotelId="@booking.Bookings.HotelId">
-                        <div class="card-body">
-
-                            <p><strong>City: </strong>@booking.Bookings.Hotel.City.Name</p>
-                            <p><strong>Room N:</strong> @booking.Bookings.Room!.RoomNumber</p>
-                            <p><strong>Customer:</strong> @booking.Customer!.Name @booking.Customer.LastName</p>
-                            <p><strong>Total Price:</strong> @booking.Bookings.Room.UnitPrice$</p>
-                            <p><strong>CheckIn Date:</strong> @booking.Bookings.CheckInDate</p>
-                            <p><strong>CheckOut Date:</strong> @booking.Bookings.CheckOutDate </p>
-
-                            <img src="@booking.Bookings.Hotel.PhotoUrl" alt="Room Photo" />
+            @foreach (var booking in Model.CustomerBookings)
+            {
+                if (booking.Bookings != null && booking.Bookings.Hotel != null && booking.Bookings.Room != null && booking.Customer != null)
+                {
+                    <div class="card">
+                        <div class="card-header  text-black d-flex justify-content-between">
+                            <p><strong>Hotel:</strong> @booking.Bookings!.Hotel!.Name</p>
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="roomId" value="@booking.Bookings.RoomId" />
+                                <button type="submit" class="btn btn-link p-0"><i class="fa-solid fa-trash pointer text-danger"></i></button>
+                            </form>
                         </div>
-                    </a>
-                </div>
+                        <a class="text-dark" asp-page="/Rooms" asp-route-hotelId="@booking.Bookings.HotelId">
+                            <div class="card-body">
+
+                                <p><strong>City: </strong>@booking.Bookings.Hotel.City.Name</p>
+                                <p><strong>Room N:</strong> @booking.Bookings.Room!.RoomNumber</p>
+                                <p><strong>Customer:</strong> @booking.Customer!.Name @booking.Customer.LastName</p>
+                                <p><strong>Total Price:</strong> @booking.Bookings.Room.UnitPrice$</p>
+                                <p><strong>CheckIn Date:</strong> @booking.Bookings.CheckInDate</p>
+                                <p><strong>CheckOut Date:</strong> @booking.Bookings.CheckOutDate </p>
+
+                                <img src="@booking.Bookings.Hotel.PhotoUrl" alt="Room Photo" />
+                            </div>
+                        </a>
+                    </div>
+                }
             }
+        }
+        else
+        {
+            <span>
+                You do not have bookings yet
+            </span>
+        }
     </div>
 </section>
