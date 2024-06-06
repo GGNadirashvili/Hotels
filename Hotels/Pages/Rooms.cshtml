@@ -42,28 +42,28 @@
     <div class="card-container">
         @if (Model.Rooms.Any())
         {
-        @foreach (var room in Model.Rooms)
-        {
-            if (!room.IsBooked)
+            @foreach (var room in Model.Rooms)
             {
-                <div class="card p-3">
-                    <form method="post">
-                        <div class="d-flex justify-content-between">
-                            <h2>Room N:@room.RoomNumber</h2>
-                            <button class="FavButton border-0">
-                                <i class="favIcon pointer fa-regular fa-star @(room.IsFavorite ? "isFavorite" : "") "></i>
-                            </button>
-                            <input type="hidden" asp-for="RoomId" value="@room.RoomId" />
+                if (!room.IsBooked)
+                {
+                    <div class="card p-3">
+                        <form method="post">
+                            <div class="d-flex justify-content-between">
+                                <h2>Room N:@room.RoomNumber</h2>
+                                <button class="FavButton border-0">
+                                    <i class="favIcon pointer fa-regular fa-star @(room.IsFavorite ? "isFavorite" : "") "></i>
+                                </button>
+                                <input type="hidden" asp-for="RoomId" value="@room.RoomId" />
+                            </div>
+                        </form>
+                        <div class="d-flex justify-content-between pb-2">
+                            <p>Price: @room.UnitPrice$</p>
+                            <a class="btn btn-success" asp-page="/BookingForm" asp-route-hotelId="@room.HotelId" asp-route-roomId="@room.RoomId">Book</a>
                         </div>
-                    </form>
-                    <div class="d-flex justify-content-between pb-2">
-                        <p>Price: @room.UnitPrice$</p>
-                        <a class="btn btn-success" asp-page="/BookingForm" asp-route-hotelId="@room.HotelId" asp-route-roomId="@room.RoomId" asp-route-price="@room.UnitPrice">Book</a>
+                        <span class="d-flex pb-2">@room.RoomType?.TypeName</span>
+                        <img src="@room.PhotoUrl" alt="Room Photo" />
                     </div>
-                    <span class="d-flex pb-2">@room.RoomType?.TypeName</span>
-                    <img src="@room.PhotoUrl" alt="Room Photo" />
-                </div>
-            }
+                }
             }
         }
         else

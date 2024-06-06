@@ -34,7 +34,7 @@ namespace Hotels.Pages
                     }
                     else
                     {
-                        return RedirectToPage(returnUrl);
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 ModelState.AddModelError("", "UserName or Password is incorrect");
